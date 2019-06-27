@@ -1,0 +1,22 @@
+language: java
+
+## TODO
+# persistence: https://docs.travis-ci.com/user/build-stages/#data-persistence-between-stages-and-jobs
+
+# https://docs.travis-ci.com/user/notifications/#configuring-webhook-notifications
+notifications:
+  webhooks: https://download.flusso.nl/notify
+
+jobs:
+  include:
+    - script: echo "Running unit tests (1)"
+    - script: echo "Running unit tests (2)"
+    - stage: GitHub Release
+      script: echo "Deploying to GitHub releases ..."
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        skip_cleanup: true
+        on:
+          tags: true
+          
